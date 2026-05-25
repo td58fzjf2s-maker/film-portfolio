@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="摄像、后期与媒体内容创作者个人求职作品集网站。" />
+    <title>FilmCraft Portfolio | 摄像 / 后期 / 媒体</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site-bg" aria-hidden="true">
+      <div class="ambient ambient-primary"></div>
+      <div class="ambient ambient-left"></div>
+      <div class="ambient ambient-right"></div>
+      <div class="ambient ambient-bottom"></div>
+      <div class="grid-overlay"></div>
+      <div class="noise-overlay"></div>
+    </div>
+
+    <header class="nav-shell">
+      <nav class="nav" aria-label="主导航">
+        <a class="brand" href="#top" aria-label="返回首页">
+          <span class="brand-mark"></span>
+          <span>FilmCraft</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false">
+          <span></span>
+          <span></span>
+        </button>
+        <div class="nav-links" data-nav-links>
+          <a href="#work">作品</a>
+          <a href="#skills">能力</a>
+          <a href="#experience">就业经验</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="hero-photo-bg" aria-hidden="true">
+          <div class="hero-photo-placeholder">
+            <img src="assets/images/portrait.png" alt="" />
+          </div>
+        </div>
+
+        <div class="hero-copy hero-profile" data-parallax>
+          <p class="eyebrow">Visual Portfolio</p>
+          <h1><span class="title-line">你的姓名</span></h1>
+          <p class="role-line">摄像 / 后期剪辑 / 媒体内容制作</p>
+          <div class="profile-meta" aria-label="个人信息">
+            <span><strong>求职方向</strong> 摄像师 / 后期剪辑师 / 新媒体视觉</span>
+            <span><strong>所在城市</strong> 可替换城市，接受外出拍摄</span>
+            <span><strong>学历</strong> XX大学 / 影视摄影与制作 / 本科</span>
+            <span><strong>工作经验</strong> 2024.05 - 至今，摄像 / 后期 / 新闻采编经验</span>
+            <span><strong>常用工具</strong> DaVinci / After Effects / 剪映 / DJI / SONY</span>
+            <span><strong>联系方式</strong> hello@example.com · 你的微信号</span>
+          </div>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#work">查看作品集</a>
+            <a class="button button-secondary" href="#experience">查看经历</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-band reveal">
+        <p>
+          适合岗位：摄像师 / 后期剪辑师 / 视频内容创作 / 新媒体视觉。重点展示项目类型、代表作品和实际经历，让招聘方快速判断你的执行能力。
+        </p>
+      </section>
+
+      <section class="section work-section" id="work">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Selected Work</p>
+          <h2>项目与作品</h2>
+          <p class="section-lead">
+            以代表作品为入口，快速查看不同类型项目中的拍摄、剪辑、调色与交付能力。
+          </p>
+        </div>
+
+        <div class="video-grid">
+          <article class="video-card video-large spotlight-card reveal" data-video-card>
+            <div class="video-window poster-1" role="button" tabindex="0" data-video-open aria-label="播放短视频项目">
+              <video muted loop playsinline preload="metadata" data-src="assets/videos/short-video.mp4"></video>
+              <span class="cover-layer" aria-hidden="true"></span>
+              <span class="play-badge">播放</span>
+              <span class="frame-label">9:16 / Social</span>
+              <span class="window-cta">播放预览</span>
+            </div>
+            <div class="card-content">
+              <p class="card-kicker">Short Video</p>
+              <h3>短视频内容</h3>
+              <a class="category-link" href="projects/short-video.html">进入短视频合集</a>
+              <p>适合展示账号内容、快剪、口播、探店、活动切片等项目，突出节奏、字幕包装和平台适配。</p>
+            </div>
+          </article>
+
+          <article class="video-card spotlight-card reveal" data-video-card>
+            <div class="video-window poster-2" role="button" tabindex="0" data-video-open aria-label="播放纪录片项目">
+              <video muted loop playsinline preload="metadata" data-src="assets/videos/documentary.mp4"></video>
+              <span class="cover-layer" aria-hidden="true"></span>
+              <span class="play-badge">播放</span>
+              <span class="frame-label">16:9 / Story</span>
+              <span class="window-cta">播放预览</span>
+            </div>
+            <div class="card-content">
+              <p class="card-kicker">Documentary</p>
+              <h3>纪录片 / 人物故事</h3>
+              <a class="category-link" href="projects/documentary.html">进入纪录片合集</a>
+              <p>适合放人物纪实、专题片段、采访结构和现场观察类作品。</p>
+            </div>
+          </article>
+
+          <article class="video-card spotlight-card reveal" data-video-card>
+            <div class="video-window poster-3" role="button" tabindex="0" data-video-open aria-label="播放 TVC 项目">
+              <video muted loop playsinline preload="metadata" data-src="assets/videos/tvc.mp4"></video>
+              <span class="cover-layer" aria-hidden="true"></span>
+              <span class="play-badge">播放</span>
+              <span class="frame-label">16:9 / Commercial</span>
+              <span class="window-cta">播放预览</span>
+            </div>
+            <div class="card-content">
+              <p class="card-kicker">Commercial</p>
+              <h3>TVC / 商业广告</h3>
+              <a class="category-link" href="projects/tvc.html">进入 TVC 合集</a>
+              <p>适合突出布光、镜头质感、产品节奏和商业视觉完成度。</p>
+            </div>
+          </article>
+
+          <article class="video-card spotlight-card reveal" data-video-card>
+            <div class="video-window poster-4" role="button" tabindex="0" data-video-open aria-label="播放微电影项目">
+              <video muted loop playsinline preload="metadata" data-src="assets/videos/short-film.mp4"></video>
+              <span class="cover-layer" aria-hidden="true"></span>
+              <span class="play-badge">播放</span>
+              <span class="frame-label">16:9 / Narrative</span>
+              <span class="window-cta">播放预览</span>
+            </div>
+            <div class="card-content">
+              <p class="card-kicker">Short Film</p>
+              <h3>微电影</h3>
+              <a class="category-link" href="projects/short-film.html">进入微电影合集</a>
+              <p>适合展示叙事镜头、场面调度、情绪剪辑和声音节奏。</p>
+            </div>
+          </article>
+
+          <article class="video-card video-wide spotlight-card reveal" data-video-card>
+            <div class="video-window poster-5" role="button" tabindex="0" data-video-open aria-label="播放宣传片项目">
+              <video muted loop playsinline preload="metadata" data-src="assets/videos/promo.mp4"></video>
+              <span class="cover-layer" aria-hidden="true"></span>
+              <span class="play-badge">播放</span>
+              <span class="frame-label">Multi-format</span>
+              <span class="window-cta">播放预览</span>
+            </div>
+            <div class="card-content">
+              <p class="card-kicker">Promotion</p>
+              <h3>宣传片 / 品牌片</h3>
+              <a class="category-link" href="projects/promo.html">进入宣传片合集</a>
+              <p>适合放企业宣传、城市形象、校园宣传、活动回顾等完整项目。</p>
+            </div>
+          </article>
+
+          <article class="video-card video-wide spotlight-card reveal" data-video-card>
+            <div class="video-window poster-6" role="button" tabindex="0" data-video-open aria-label="播放短剧项目">
+              <video muted loop playsinline preload="metadata" data-src="assets/videos/mini-drama.mp4"></video>
+              <span class="cover-layer" aria-hidden="true"></span>
+              <span class="play-badge">播放</span>
+              <span class="frame-label">9:16 / Drama</span>
+              <span class="window-cta">播放预览</span>
+            </div>
+            <div class="card-content">
+              <p class="card-kicker">Mini Drama</p>
+              <h3>短剧 / 剧情内容</h3>
+              <a class="category-link" href="projects/mini-drama.html">进入短剧合集</a>
+              <p>适合突出镜头连续性、表演调度、情节节奏和批量内容生产能力。</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="skills">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Capabilities</p>
+          <h2>核心能力</h2>
+        </div>
+        <div class="skill-grid">
+          <article class="skill-card spotlight-card reveal">
+            <span class="icon">01</span>
+            <h3>摄像执行</h3>
+            <p>熟悉活动、访谈、商业短片与社媒内容拍摄，能快速判断机位、光线和现场节奏。</p>
+          </article>
+          <article class="skill-card spotlight-card reveal">
+            <span class="icon">02</span>
+            <h3>剪辑叙事</h3>
+            <p>擅长从大量素材中提炼主线，控制信息密度、情绪推进和平台观看节奏。</p>
+          </article>
+          <article class="skill-card spotlight-card reveal">
+            <span class="icon">03</span>
+            <h3>调色包装</h3>
+            <p>可完成基础调色、字幕样式、动效包装、音频清理与多比例输出。</p>
+          </article>
+          <article class="skill-card spotlight-card reveal">
+            <span class="icon">04</span>
+            <h3>媒体适配</h3>
+            <p>理解小红书、抖音、视频号、B 站等平台差异，能按传播目标组织版本。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section experience" id="experience">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Experience</p>
+          <h2>就业经验</h2>
+        </div>
+        <div class="experience-grid">
+          <div class="resume-card spotlight-card reveal">
+            <h3>工作经历</h3>
+            <div class="experience-list">
+              <article class="experience-item">
+                <div class="experience-time">2025.06 - 至今</div>
+                <div class="experience-detail">
+                  <div class="experience-head">
+                    <strong>辽宁帧格文化传媒有限公司</strong>
+                    <span>摄像 / 后期</span>
+                  </div>
+                  <p>负责项目拍摄与后期制作，参与影像内容从现场执行到素材整理、剪辑包装与成片交付的完整流程。</p>
+                  <div class="experience-tags">
+                    <span>摄像</span>
+                    <span>后期</span>
+                    <span>项目执行</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="experience-item">
+                <div class="experience-time">2025.03 - 2025.06</div>
+                <div class="experience-detail">
+                  <div class="experience-head">
+                    <strong>中国日报社</strong>
+                    <span>编辑记者</span>
+                  </div>
+                  <p>根据主管要求完成每日新闻采编工作，参与新闻内容编辑、素材整理与稿件相关支持。</p>
+                  <div class="experience-tags">
+                    <span>新闻采编</span>
+                    <span>编辑记者</span>
+                    <span>内容编辑</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="experience-item">
+                <div class="experience-time">2024.08 - 2025.02</div>
+                <div class="experience-detail">
+                  <div class="experience-head">
+                    <strong>北京市影映天下传媒有限公司</strong>
+                    <span>摄像 / 后期</span>
+                  </div>
+                  <p>根据客户及导演需求完成拍摄执行，并参与后期剪辑、素材整理与成片调整，及时沟通画面与内容方向。</p>
+                  <div class="experience-tags">
+                    <span>商业拍摄</span>
+                    <span>后期剪辑</span>
+                    <span>导演沟通</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="experience-item">
+                <div class="experience-time">2024.05 - 2024.06</div>
+                <div class="experience-detail">
+                  <div class="experience-head">
+                    <strong>阜蒙县融媒体中心</strong>
+                    <span>记者 / 采编</span>
+                  </div>
+                  <p>负责传统新闻现场录制，根据电视台要求完成新闻素材采集、现场记录与采编支持。</p>
+                  <div class="experience-tags">
+                    <span>记者</span>
+                    <span>采编</span>
+                    <span>新闻现场</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="tool-card spotlight-card reveal">
+            <h3>常用工具</h3>
+            <div class="tool-tags">
+              <span>DaVinci Resolve</span>
+              <span>After Effects</span>
+              <span>剪映</span>
+              <span>DJI</span>
+              <span>SONY</span>
+              <span>调色</span>
+              <span>后期剪辑</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="video-modal" data-video-modal hidden>
+      <button class="modal-backdrop" type="button" data-video-close aria-label="关闭视频"></button>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-label="作品视频播放窗口">
+        <button class="modal-close" type="button" data-video-close aria-label="关闭视频">×</button>
+        <video controls playsinline data-modal-video></video>
+        <iframe
+          class="modal-bili"
+          data-modal-bili
+          title="B站作品播放器"
+          allow="fullscreen; autoplay"
+          allowfullscreen
+          hidden
+        ></iframe>
+      </div>
+    </div>
+
+    <button class="editor-launcher" type="button" data-editor-open>编辑内容</button>
+
+    <div class="editor-modal" data-editor-modal hidden>
+      <button class="editor-backdrop" type="button" data-editor-close aria-label="关闭内容编辑器"></button>
+      <section class="editor-panel" role="dialog" aria-modal="true" aria-label="内容编辑器">
+        <div class="editor-head">
+          <div>
+            <p class="eyebrow">Content Editor</p>
+            <h2>填写网站内容</h2>
+          </div>
+          <button class="modal-close" type="button" data-editor-close aria-label="关闭内容编辑器">×</button>
+        </div>
+
+        <form class="editor-form" data-editor-form>
+          <fieldset>
+            <legend>个人信息</legend>
+            <label>姓名 <input name="name" type="text" /></label>
+            <label>职业方向 <input name="role" type="text" /></label>
+            <label>求职方向 <input name="jobTarget" type="text" /></label>
+            <label>所在城市 <input name="city" type="text" /></label>
+            <label>学历 <input name="education" type="text" /></label>
+            <label>工作经验 <input name="experience" type="text" /></label>
+            <label>常用工具 <input name="tools" type="text" /></label>
+            <label>联系方式 <input name="contact" type="text" /></label>
+            <label class="full-field">首页简介 <textarea name="intro" rows="3"></textarea></label>
+            <label class="full-field">作品区说明 <textarea name="workLead" rows="2"></textarea></label>
+          </fieldset>
+
+          <fieldset>
+            <legend>作品窗口</legend>
+            <div class="editor-projects" data-editor-projects></div>
+          </fieldset>
+
+          <div class="editor-actions">
+            <button class="button button-primary" type="submit">保存到页面</button>
+            <button class="button button-secondary" type="button" data-editor-export>保存并导出备份</button>
+            <button class="button button-secondary" type="button" data-editor-reset>恢复示例内容</button>
+            <button class="button button-secondary" type="button" data-editor-clear>清除本地保存</button>
+          </div>
+          <p class="editor-status" data-editor-status aria-live="polite"></p>
+          <p class="editor-note">视频路径示例：assets/videos/short-video.mp4。把视频文件放进对应文件夹后，在这里填写路径即可。</p>
+        </form>
+      </section>
+    </div>
+
+    <footer class="footer site-footer">
+      <span>© 2026 FilmCraft Portfolio</span>
+      <span>个人作品集网站 · 摄像 / 后期 / 媒体内容</span>
+      <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">ICP备案号：备案后替换</a>
+      <a href="https://beian.mps.gov.cn/" target="_blank" rel="noopener">公安备案号：备案后替换</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
