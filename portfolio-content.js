@@ -1,5 +1,4 @@
-window.FILMCRAFT_STATIC_CONTENT_VERSION = "20260526172500";
-window.FILMCRAFT_STATIC_CONTENT = {
+window.PORTFOLIO_STATIC_CONTENT = {
   "profile": {
     "name": "王俊博",
     "role": "摄像 / 后期剪辑 / 媒体内容制作",
@@ -18,16 +17,16 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "title": "短视频内容",
       "linkText": "进入短视频合集",
       "meta": "Vertical · 00:45",
-      "video": "assets/videos/1226茶饮-马哲.mp4",
+      "video": "",
       "description": "",
       "collection": [
         {
           "title": "视频 01",
-          "bili": "",
-          "video": "assets/videos/1226茶饮-马哲.mp4",
+          "bili": "https://www.bilibili.com/video/BV1JGVN62EN2/",
+          "video": "",
           "description": "摄影 字节跳动推广项目",
           "videoBlobKey": "",
-          "videoName": "1226茶饮-马哲.mp4",
+          "videoName": "",
           "videoFit": "cover",
           "videoX": "50",
           "videoY": "50",
@@ -35,11 +34,11 @@ window.FILMCRAFT_STATIC_CONTENT = {
         },
         {
           "title": "视频 02",
-          "bili": "",
-          "video": "assets/videos/1227茶饮-田鸿杰.mp4",
+          "bili": "https://www.bilibili.com/video/BV1zGVN62EYK/",
+          "video": "",
           "description": "摄影 字节跳动推广项目",
           "videoBlobKey": "",
-          "videoName": "1227茶饮-田鸿杰.mp4",
+          "videoName": "",
           "videoFit": "cover",
           "videoX": "50",
           "videoY": "50",
@@ -47,11 +46,11 @@ window.FILMCRAFT_STATIC_CONTENT = {
         },
         {
           "title": "视频 03",
-          "bili": "",
-          "video": "assets/videos/微信视频2026-05-25_201049_412.mp4",
+          "bili": "https://www.bilibili.com/video/BV1eHVN66EX4/",
+          "video": "",
           "description": "摄影 抖音大明星官号",
           "videoBlobKey": "",
-          "videoName": "微信视频2026-05-25_201049_412.mp4",
+          "videoName": "",
           "videoFit": "cover",
           "videoX": "50",
           "videoY": "50",
@@ -59,23 +58,11 @@ window.FILMCRAFT_STATIC_CONTENT = {
         },
         {
           "title": "视频 04",
-          "bili": "",
-          "video": "assets/videos/微信视频2026-05-25_201112_766.mp4",
+          "bili": "https://www.bilibili.com/video/BV15HVN66ERF/",
+          "video": "",
           "description": "摄影 抖音大明星官号",
           "videoBlobKey": "",
-          "videoName": "微信视频2026-05-25_201112_766.mp4",
-          "videoFit": "cover",
-          "videoX": "50",
-          "videoY": "50",
-          "videoScale": "1.00"
-        },
-        {
-          "title": "视频 05",
-          "bili": "",
-          "video": "assets/videos/微信视频2026-05-25_201455_183.mp4",
-          "description": "摄影",
-          "videoBlobKey": "",
-          "videoName": "微信视频2026-05-25_201455_183.mp4",
+          "videoName": "",
           "videoFit": "cover",
           "videoX": "50",
           "videoY": "50",
@@ -83,11 +70,23 @@ window.FILMCRAFT_STATIC_CONTENT = {
         },
         {
           "title": "视频 06",
-          "bili": "",
-          "video": "assets/videos/微信视频2026-05-25_201152_812.mp4",
+          "bili": "https://www.bilibili.com/video/BV15HVN66EiQ/",
+          "video": "",
           "description": "摄影 抖音电影官号春节档电影宣发",
           "videoBlobKey": "",
-          "videoName": "微信视频2026-05-25_201152_812.mp4",
+          "videoName": "",
+          "videoFit": "cover",
+          "videoX": "50",
+          "videoY": "50",
+          "videoScale": "1.00"
+        },
+        {
+          "title": "视频 05",
+          "bili": "https://www.bilibili.com/video/BV1LHVN66EAc/",
+          "video": "",
+          "description": "摄影",
+          "videoBlobKey": "",
+          "videoName": "",
           "videoFit": "cover",
           "videoX": "50",
           "videoY": "50",
@@ -102,9 +101,9 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "coverX": "50",
       "coverY": "50",
       "coverScale": "1.00",
-      "bili": "",
+      "bili": "https://www.bilibili.com/video/BV1JGVN62EN2/",
       "videoBlobKey": "",
-      "videoName": "1226茶饮-马哲.mp4"
+      "videoName": ""
     },
     {
       "kicker": "Documentary",
@@ -115,7 +114,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "description": "",
       "collection": [
         {
-          "title": "视频 01",
+          "title": "铁轨人生",
           "bili": "https://www.bilibili.com/video/BV174Gq6YEEj/",
           "video": "",
           "description": "摄影 后期",
@@ -127,7 +126,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 02",
+          "title": "火山引擎中科院",
           "bili": "https://www.bilibili.com/video/BV1EWGq6vEKv/",
           "video": "",
           "description": "摄影",
@@ -139,7 +138,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 03",
+          "title": "小学公益案例x火山引擎FORCE",
           "bili": "https://www.bilibili.com/video/BV1EWGq6vELw/",
           "video": "",
           "description": "摄影",
@@ -151,7 +150,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 04",
+          "title": "荣耀案例x火山引擎FORCE",
           "bili": "https://www.bilibili.com/video/BV1BWGq6vEok/",
           "video": "",
           "description": "摄影",
@@ -163,7 +162,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 05",
+          "title": "小学公益案例x火山引擎FORCE",
           "bili": "https://www.bilibili.com/video/BV1EWGq6vEGw/",
           "video": "",
           "description": "摄影",
@@ -208,7 +207,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "description": "适合突出布光、镜头质感、产品节奏和商业视觉完成度。",
       "collection": [
         {
-          "title": "视频 01",
+          "title": "霸王茶姬 茶香遇",
           "bili": "https://www.bilibili.com/video/BV124Gi6CEPv/",
           "video": "",
           "description": "摄影 后期",
@@ -220,7 +219,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 02",
+          "title": "京东国补X董浩-《老家不老》-北京篇“北京天地宽”",
           "bili": "https://www.bilibili.com/video/BV15YGq6bEVt/",
           "video": "",
           "description": "摄影 ",
@@ -232,7 +231,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 03",
+          "title": "豆包大模型+端到端语音模型",
           "bili": "https://www.bilibili.com/video/BV1ZxGq6PE6L/",
           "video": "",
           "description": "摄影",
@@ -244,7 +243,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 04",
+          "title": "《家风》空军纪委",
           "bili": "https://www.bilibili.com/video/BV1smGZ6zEoy/",
           "video": "",
           "description": "摄影 后期",
@@ -301,7 +300,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "description": "适合展示叙事镜头、场面调度、情绪剪辑和声音节奏。",
       "collection": [
         {
-          "title": "视频 01",
+          "title": "《100》",
           "bili": "https://www.bilibili.com/video/BV1v8Gq6hEdg/",
           "video": "",
           "description": "摄影 后期",
@@ -313,7 +312,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 02",
+          "title": "微短剧《重生之我在非法集资团伙做线人》",
           "bili": "https://www.bilibili.com/video/BV1b6GZ65EUN/",
           "video": "",
           "description": "摄影",
@@ -394,7 +393,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "description": "适合放企业宣传、城市形象、校园宣传、活动回顾等完整项目。",
       "collection": [
         {
-          "title": "视频 01",
+          "title": "《豪宅封面 领潮而来》龙湖地产样板间",
           "bili": "https://www.bilibili.com/video/BV1EWGq6vEA2/",
           "video": "",
           "description": "摄影 ",
@@ -406,7 +405,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 02",
+          "title": "时代的工匠",
           "bili": "https://www.bilibili.com/video/BV1j4Gq6YEDb/",
           "video": "",
           "description": "摄影",
@@ -418,7 +417,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 03",
+          "title": "红墙24小时",
           "bili": "https://www.bilibili.com/video/BV1BxGq6PEjT/",
           "video": "",
           "description": "摄影",
@@ -430,8 +429,8 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 04",
-          "bili": "https://www.bilibili.com/video/BV1brGZ6CEF8/",
+          "title": "牧马人汽车",
+          "bili": "https://www.bilibili.com/video/BV1nfGZ6wEzH/",
           "video": "",
           "description": "摄影 后期",
           "videoBlobKey": "",
@@ -442,7 +441,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 05",
+          "title": "云樾府封顶",
           "bili": "https://www.bilibili.com/video/BV1noGZ6YEDw/",
           "video": "",
           "description": "摄影 后期",
@@ -454,7 +453,7 @@ window.FILMCRAFT_STATIC_CONTENT = {
           "videoScale": "1.00"
         },
         {
-          "title": "视频 06",
+          "title": "云樾府示范区",
           "bili": "https://www.bilibili.com/video/BV1noGZ6YE6m/",
           "video": "",
           "description": "摄影 后期",
@@ -572,5 +571,6 @@ window.FILMCRAFT_STATIC_CONTENT = {
       "videoBlobKey": "",
       "videoName": ""
     }
-  ]
+  ],
+  "version": "20260526223000"
 };
