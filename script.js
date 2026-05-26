@@ -1,14 +1,74 @@
 const contentKey = "filmcraft-portfolio-content";
+const contentVersionKey = "filmcraft-portfolio-content-version";
 const videoDbName = "filmcraft-video-store";
 const videoStoreName = "videos";
 const oldWorkLead = "下方窗口可替换为你的真实视频。鼠标移入会自动静音预览，点击任意窗口可打开播放。";
 const refinedWorkLead = "以代表作品为入口，快速查看不同类型项目中的拍摄、剪辑、调色与交付能力。";
 
 let memoryContent = null;
+let contentRenderId = 0;
 const pendingVideoFiles = new Map();
 const pendingCoverFiles = new Map();
+const pendingCoverDataUrls = new Map();
 const pendingCollectionVideoFiles = new Map();
 const objectUrls = new Map();
+const pendingCoverPreviewUrls = new Map();
+
+function clearObjectUrlCache() {
+  objectUrls.clear();
+}
+
+function clearPendingCoverPreviewUrls(index) {
+  const entries = index === undefined
+    ? [...pendingCoverPreviewUrls.entries()]
+    : [[index, pendingCoverPreviewUrls.get(index)]];
+  entries.forEach(([key, url]) => {
+    if (!url) return;
+    try {
+      URL.revokeObjectURL(url);
+    } catch {}
+    pendingCoverPreviewUrls.delete(key);
+  });
+}
+
+function getPendingCoverPreviewUrl(index, file) {
+  if (!file) return "";
+  const cached = pendingCoverPreviewUrls.get(index);
+  if (cached) return cached;
+  const url = URL.createObjectURL(file);
+  pendingCoverPreviewUrls.set(index, url);
+  return url;
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function createCompressedCoverDataUrl(file) {
+  const fallback = async () => readFileAsDataUrl(file);
+  try {
+    const bitmap = await createImageBitmap(file);
+    const maxSide = 1400;
+    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const context = canvas.getContext("2d");
+    if (!context) return fallback();
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close?.();
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+    return dataUrl.length <= 1_800_000 ? dataUrl : "";
+  } catch {
+    const dataUrl = await fallback();
+    return dataUrl.length <= 1_800_000 ? dataUrl : "";
+  }
+}
 
 const defaultContent = {
   profile: {
@@ -191,6 +251,14 @@ function normalizeContent(content) {
   };
 }
 
+function getStaticContent() {
+  return normalizeContent(window.FILMCRAFT_STATIC_CONTENT || defaultContent);
+}
+
+function getStaticContentVersion() {
+  return String(window.FILMCRAFT_STATIC_CONTENT_VERSION || "");
+}
+
 function safeStorageGet(key) {
   try {
     return window.localStorage?.getItem(key) || window.sessionStorage?.getItem(key);
@@ -206,10 +274,12 @@ function safeStorageGet(key) {
 function safeStorageSet(key, value) {
   let saved = false;
   try {
+    window.localStorage?.removeItem(key);
     window.localStorage?.setItem(key, value);
     saved = true;
   } catch {}
   try {
+    window.sessionStorage?.removeItem(key);
     window.sessionStorage?.setItem(key, value);
     saved = true;
   } catch {}
@@ -225,25 +295,46 @@ function safeStorageRemove(key) {
   } catch {}
 }
 
+function clearSavedContent() {
+  safeStorageRemove(contentKey);
+  safeStorageRemove(contentVersionKey);
+}
+
+function resetRuntimeContent() {
+  memoryContent = null;
+  pendingVideoFiles.clear();
+  pendingCoverFiles.clear();
+  pendingCoverDataUrls.clear();
+  pendingCollectionVideoFiles.clear();
+  clearPendingCoverPreviewUrls();
+}
+
 function hasSavedContent() {
   return Boolean(safeStorageGet(contentKey) || memoryContent);
 }
 
 function readContent() {
+  if (memoryContent) return normalizeContent(memoryContent);
+  const staticVersion = getStaticContentVersion();
+  if (staticVersion && safeStorageGet(contentVersionKey) !== staticVersion) {
+    safeStorageRemove(contentKey);
+  }
   const raw = safeStorageGet(contentKey);
   if (raw) {
     try {
       return normalizeContent(JSON.parse(raw));
     } catch {
-      return cloneContent(defaultContent);
+      return getStaticContent();
     }
   }
-  return normalizeContent(memoryContent);
+  return getStaticContent();
 }
 
 function writeContent(content) {
   memoryContent = cloneContent(content);
-  safeStorageSet(contentKey, JSON.stringify(content, null, 2));
+  const saved = safeStorageSet(contentKey, JSON.stringify(content, null, 2));
+  if (saved) safeStorageSet(contentVersionKey, getStaticContentVersion());
+  return saved;
 }
 
 function setEditorStatus(message, isError = false) {
@@ -341,7 +432,8 @@ async function resolveCollectionVideo(item, projectIndex, itemIndex) {
 
 async function resolveProjectCover(project, index) {
   const pending = pendingCoverFiles.get(index);
-  if (pending) return URL.createObjectURL(pending);
+  if (pending) return getPendingCoverPreviewUrl(index, pending);
+  if (project.coverDataUrl) return project.coverDataUrl;
   if (project.coverBlobKey) {
     if (objectUrls.has(project.coverBlobKey)) return objectUrls.get(project.coverBlobKey);
     try {
@@ -404,9 +496,10 @@ function getMediaFrameSettings(item = {}) {
   };
 }
 
-function setCoverImage(windowEl, coverUrl, settings) {
+function setCoverImage(windowEl, coverUrl, settings, options = {}) {
   let image = windowEl.querySelector(".cover-image");
   if (!coverUrl) {
+    if (options.preserveExisting && image) return;
     image?.remove();
     windowEl.classList.remove("has-cover");
     windowEl.style.removeProperty("background-image");
@@ -426,6 +519,30 @@ function setCoverImage(windowEl, coverUrl, settings) {
   image.style.transform = `scale(${settings.scale})`;
   windowEl.classList.add("has-cover");
   windowEl.style.removeProperty("background-image");
+}
+
+async function refreshProjectCovers(content = readContent(), options = {}) {
+  const cards = document.querySelectorAll("[data-video-card]");
+  await Promise.all(
+    content.projects.map(async (project, index) => {
+      const card = cards[index];
+      const windowEl = card?.querySelector(".video-window");
+      if (!windowEl) return;
+      const coverUrl = await resolveProjectCover(project, index);
+      const shouldPreserve = options.preserveExisting && Boolean(project.coverBlobKey || project.coverDataUrl || project.cover || pendingCoverFiles.get(index));
+      setCoverImage(windowEl, coverUrl, getCoverSettings(project), { preserveExisting: shouldPreserve });
+    })
+  );
+}
+
+function scheduleProjectCoverRefresh(content = readContent()) {
+  const refresh = () => {
+    if (editorModal && !editorModal.hidden) return;
+    refreshProjectCovers(content, { preserveExisting: true });
+  };
+  requestAnimationFrame(refresh);
+  window.setTimeout(refresh, 250);
+  window.setTimeout(refresh, 900);
 }
 
 function getCoverEditorSettings(index) {
@@ -448,6 +565,7 @@ function previewCoverForProject(index, coverUrl, settings = getCoverEditorSettin
 }
 
 function applyContent(content) {
+  const renderId = ++contentRenderId;
   setText(".hero-profile h1 .title-line", content.profile.name);
   setText(".role-line", content.profile.role);
   setText(".intro-band p", content.profile.intro);
@@ -479,22 +597,30 @@ function applyContent(content) {
     const video = card.querySelector("video");
     if (video) {
       video.dataset.src = biliUrl ? "" : await resolveProjectVideo(project, index);
+      if (renderId !== contentRenderId) return;
       video.removeAttribute("src");
       video.load();
     }
     const windowEl = card.querySelector(".video-window");
     if (windowEl) {
       const coverUrl = await resolveProjectCover(project, index);
-      setCoverImage(windowEl, coverUrl, getCoverSettings(project));
+      if (renderId !== contentRenderId) return;
+      setCoverImage(windowEl, coverUrl, getCoverSettings(project), {
+        preserveExisting: Boolean(project.coverBlobKey || project.coverDataUrl || project.cover || pendingCoverFiles.get(index))
+      });
     }
     const cardBili = card.querySelector(".card-bili");
     if (cardBili) cardBili.remove();
     if (biliUrl) {
-      windowEl?.classList.remove("has-bili");
+      windowEl?.classList.add("has-bili");
+      card.dataset.biliReady = "true";
       setTextFor(card, ".play-badge", "B站");
+      setTextFor(card, ".window-cta", "B站播放");
     } else {
       windowEl?.classList.remove("has-bili");
+      delete card.dataset.biliReady;
       setTextFor(card, ".play-badge", "播放");
+      setTextFor(card, ".window-cta", "播放预览");
     }
   });
 }
@@ -505,8 +631,11 @@ function hydrateVideo(video) {
 }
 
 function getBiliPlayerUrl(value) {
-  const input = String(value || "").trim();
+  let input = String(value || "").trim();
   if (!input) return "";
+  const iframeSrc = input.match(/src=["']([^"']+)["']/i)?.[1];
+  if (iframeSrc) input = iframeSrc.trim();
+  if (input.startsWith("//")) input = `https:${input}`;
   const bv = input.match(/BV[a-zA-Z0-9]+/)?.[0];
   const av = input.match(/(?:av|aid=)(\d+)/i)?.[1];
   const params = "page=1&p=1&autoplay=0&high_quality=1&danmaku=0&as_wide=1&qn=112&quality=112&hideCoverInfo=1";
@@ -515,6 +644,10 @@ function getBiliPlayerUrl(value) {
   if (input.includes("player.bilibili.com")) {
     try {
       const url = new URL(input);
+      const bvid = url.searchParams.get("bvid");
+      const aid = url.searchParams.get("aid");
+      if (bvid) return `https://player.bilibili.com/player.html?bvid=${encodeURIComponent(bvid)}&${params}`;
+      if (aid) return `https://player.bilibili.com/player.html?aid=${encodeURIComponent(aid)}&${params}`;
       params.split("&").forEach((pair) => {
         const [key, value] = pair.split("=");
         if (!url.searchParams.has(key)) url.searchParams.set(key, value);
@@ -529,6 +662,13 @@ function getBiliPlayerUrl(value) {
 
 function getProjectBiliUrl(project) {
   return getBiliPlayerUrl(project?.bili) || getBiliPlayerUrl(project?.video);
+}
+
+function getExternalCollectionLink(item) {
+  const link = String(item?.link || item?.url || "").trim();
+  if (!link) return "";
+  if (/^https?:\/\//i.test(link)) return link;
+  return "";
 }
 
 function getFreshBiliUrl(url) {
@@ -568,13 +708,25 @@ async function renderCollectionPage(content) {
       const title = item.title || defaultCollectionTitle(index);
       const playerUrl = getBiliPlayerUrl(item.bili) || getBiliPlayerUrl(item.video);
       const directVideo = playerUrl ? "" : await resolveCollectionVideo(item, projectIndex, index);
+      const externalLink = getExternalCollectionLink(item);
+      if (!playerUrl && !directVideo && externalLink) {
+        return `
+          <article class="collection-work collection-link-work spotlight-card">
+            <a class="collection-external-link" href="${escapeHtml(externalLink)}" target="_blank" rel="noopener">
+              <span class="card-kicker">${escapeHtml(project.kicker || "Link")}</span>
+              <strong>${escapeHtml(title)}</strong>
+              <span>${escapeHtml(item.description || "打开外部平台查看完整作品")}</span>
+              <em>打开链接</em>
+            </a>
+          </article>
+        `;
+      }
+      if (!playerUrl && !directVideo) return "";
       const settings = getMediaFrameSettings(item);
       const mediaStyle = `object-fit:${settings.fit};object-position:${settings.x}% ${settings.y}%;transform:scale(${settings.scale});`;
       const media = playerUrl
         ? `<iframe src="${escapeHtml(playerUrl)}" title="${escapeHtml(title)}" allow="fullscreen; autoplay" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>`
-        : directVideo
-          ? `<video controls playsinline src="${escapeHtml(directVideo)}" style="${mediaStyle}"></video>`
-          : `<div class="collection-player-empty">&#22312;&#32534;&#36753;&#20869;&#23481;&#37324;&#20026;&#36825;&#20010;&#35270;&#39057;&#22635;&#20889; B&#31449;&#38142;&#25509; / BV&#21495;&#12289;&#35270;&#39057;&#30452;&#38142;&#65292;&#25110;&#30452;&#25509;&#25302;&#20837;&#26412;&#22320;&#35270;&#39057;&#12290;</div>`;
+        : `<video controls playsinline src="${escapeHtml(directVideo)}" style="${mediaStyle}"></video>`;
       return `
         <article class="collection-work spotlight-card">
           <div class="collection-player">${media}</div>
@@ -769,7 +921,7 @@ function bindCoverAdjusters() {
       const pending = pendingCoverFiles.get(index);
       const project = readContent().projects[index];
       const typedCover = editorForm?.elements?.[`project-${index}-cover`]?.value;
-      const coverUrl = pending ? URL.createObjectURL(pending) : typedCover || (await resolveProjectCover(project, index));
+      const coverUrl = pending ? getPendingCoverPreviewUrl(index, pending) : typedCover || (await resolveProjectCover(project, index));
       previewCoverForProject(index, coverUrl, getCoverEditorSettings(index));
     };
     adjuster.querySelectorAll("input, select").forEach((field) => {
@@ -787,16 +939,18 @@ function bindDropzones() {
   document.querySelectorAll("[data-cover-drop]").forEach((zone) => {
     const index = Number(zone.dataset.coverDrop);
     const input = zone.querySelector("input");
-    const setFile = (file) => {
+    const setFile = async (file) => {
       if (!file || !file.type.startsWith("image/")) {
         setEditorStatus("请拖入图片文件。", true);
         return;
       }
+      clearPendingCoverPreviewUrls(index);
       pendingCoverFiles.set(index, file);
+      pendingCoverDataUrls.set(index, await createCompressedCoverDataUrl(file));
       zone.classList.add("has-file");
       zone.querySelector("span").textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} MB`;
       setEditorStatus("封面图片已加入，点击保存到页面后会绑定到对应作品。");
-      previewCoverForProject(index, URL.createObjectURL(file), getCoverEditorSettings(index));
+      previewCoverForProject(index, getPendingCoverPreviewUrl(index, file), getCoverEditorSettings(index));
     };
 
     zone.addEventListener("click", () => input?.click());
@@ -894,6 +1048,7 @@ function collectEditorContent() {
     cover: fields[`project-${index}-cover`]?.value || "",
     coverBlobKey: project.coverBlobKey || "",
     coverName: project.coverName || "",
+    coverDataUrl: project.coverDataUrl || "",
     coverFit: fields[`project-${index}-coverFit`]?.value || "contain",
     coverX: fields[`project-${index}-coverX`]?.value || "50",
     coverY: fields[`project-${index}-coverY`]?.value || "50",
@@ -954,9 +1109,12 @@ async function persistPendingCovers(content) {
     await saveMediaBlob(key, file);
     content.projects[index].coverBlobKey = key;
     content.projects[index].coverName = file.name;
+    content.projects[index].coverDataUrl = pendingCoverDataUrls.get(index) || "";
     content.projects[index].cover = "";
   }
   pendingCoverFiles.clear();
+  pendingCoverDataUrls.clear();
+  clearPendingCoverPreviewUrls();
   return content;
 }
 
@@ -965,11 +1123,16 @@ async function saveEditorContent() {
   content = await persistPendingVideos(content);
   content = await persistPendingCollectionVideos(content);
   content = await persistPendingCovers(content);
-  writeContent(content);
+  const persisted = writeContent(content);
   applyContent(content);
   renderCollectionPage(content);
   fillEditor(content);
-  setEditorStatus("已保存到页面。视频会保存在当前浏览器本地。");
+  setEditorStatus(
+    persisted
+      ? "已保存到页面。B站链接会立即显示，封面会在返回后保持。"
+      : "已在当前页面生效，但内置浏览器本地存储可能已满。建议减少本地视频/大封面，或把文件放进 assets 后上传 GitHub。",
+    !persisted
+  );
 }
 
 function openEditor() {
@@ -1007,19 +1170,18 @@ document.querySelectorAll("[data-editor-close]").forEach((button) => button.addE
 document.querySelector("[data-editor-export]")?.addEventListener("click", exportContent);
 document.querySelector("[data-editor-reset]")?.addEventListener("click", () => {
   writeContent(defaultContent);
-  pendingVideoFiles.clear();
-  pendingCoverFiles.clear();
-  pendingCollectionVideoFiles.clear();
+  resetRuntimeContent();
+  memoryContent = cloneContent(defaultContent);
   applyContent(defaultContent);
   fillEditor(defaultContent);
   setEditorStatus("已恢复示例内容。");
 });
 document.querySelector("[data-editor-clear]")?.addEventListener("click", () => {
-  memoryContent = null;
-  pendingVideoFiles.clear();
-  pendingCoverFiles.clear();
-  pendingCollectionVideoFiles.clear();
-  safeStorageRemove(contentKey);
+  resetRuntimeContent();
+  clearSavedContent();
+  const content = getStaticContent();
+  applyContent(content);
+  fillEditor(content);
   setEditorStatus("已清除本地保存。刷新页面后会显示 index.html 里的内容。");
 });
 
@@ -1070,25 +1232,34 @@ if (parallaxTarget && !reduceMotion) {
   );
 }
 
-function restoreSavedContent() {
+function restoreSavedContent({ refreshMedia = false } = {}) {
+  if (editorModal && !editorModal.hidden) return;
+  if (refreshMedia) clearObjectUrlCache();
   const content = readContent();
-  if (hasSavedContent()) applyContent(content);
+  applyContent(content);
   renderCollectionPage(content);
+  scheduleProjectCoverRefresh(content);
 }
 
 bindVideoCards();
 restoreSavedContent();
 
-window.addEventListener("pageshow", () => {
-  restoreSavedContent();
+window.addEventListener("pageshow", (event) => {
+  restoreSavedContent({ refreshMedia: event.persisted });
+});
+
+window.addEventListener("popstate", () => {
+  restoreSavedContent({ refreshMedia: true });
 });
 
 window.addEventListener("focus", () => {
-  restoreSavedContent();
+  if (editorModal && !editorModal.hidden) return;
+  scheduleProjectCoverRefresh();
 });
 
 document.addEventListener("visibilitychange", () => {
+  if (editorModal && !editorModal.hidden) return;
   if (!document.hidden) {
-    restoreSavedContent();
+    scheduleProjectCoverRefresh();
   }
 });

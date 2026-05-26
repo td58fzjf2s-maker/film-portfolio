@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/projects/short-video.html</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/projects/short-video.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/projects/documentary.html</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/projects/documentary.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/projects/tvc.html</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/projects/tvc.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/projects/short-film.html</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/projects/short-film.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/projects/promo.html</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/projects/promo.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/projects/mini-drama.html</loc>
+    <loc>https://td58fzjf2s-maker.github.io/film-portfolio/projects/mini-drama.html</loc>
     <priority>0.8</priority>
   </url>
 </urlset>
