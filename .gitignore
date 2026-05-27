@@ -10,6 +10,12 @@ screenshot-*.png
 github-pages-upload/
 github-pages-upload.zip
 github-upload-final-safe/
+github-web-upload-batches/
+github-web-upload-final-batches/
+github-web-upload-single-videos/
+_archive-not-for-upload/
+resume-render/
+tools/
 portfolio-content\ \(*\).json
 assets/videos/original-large-backup/
 .tools/

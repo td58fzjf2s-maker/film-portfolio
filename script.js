@@ -252,11 +252,16 @@ function normalizeContent(content) {
 }
 
 function getStaticContent() {
-  return normalizeContent(window.FILMCRAFT_STATIC_CONTENT || defaultContent);
+  return normalizeContent(window.FILMCRAFT_STATIC_CONTENT || window.PORTFOLIO_STATIC_CONTENT || defaultContent);
 }
 
 function getStaticContentVersion() {
-  return String(window.FILMCRAFT_STATIC_CONTENT_VERSION || "");
+  return String(
+    window.FILMCRAFT_STATIC_CONTENT_VERSION ||
+      window.PORTFOLIO_STATIC_CONTENT_VERSION ||
+      window.PORTFOLIO_STATIC_CONTENT?.version ||
+      ""
+  );
 }
 
 function safeStorageGet(key) {
@@ -574,14 +579,24 @@ function applyContent(content) {
   const meta = document.querySelector(".profile-meta");
   if (meta) {
     meta.innerHTML = [
-      ["求职方向", content.profile.jobTarget],
-      ["所在城市", content.profile.city],
-      ["学历", content.profile.education],
-      ["工作经验", content.profile.experience],
-      ["常用工具", content.profile.tools],
-      ["联系方式", content.profile.contact]
+      ["\u6c42\u804c\u65b9\u5411", content.profile.jobTarget],
+      ["\u6240\u5728\u57ce\u5e02", content.profile.city],
+      ["\u5b66\u5386", content.profile.education],
+      ["\u5de5\u4f5c\u7ecf\u9a8c", content.profile.experience],
+      ["\u5e38\u7528\u5de5\u5177", content.profile.tools],
+      ["\u8054\u7cfb\u65b9\u5f0f", content.profile.contact],
+      [
+        "\u4f5c\u54c1\u7f51\u76d8",
+        "https://pan.baidu.com/s/185PgdiUptps6WIQegvrHLA?pwd=4sn1 \u63d0\u53d6\u7801\uff1a4sn1",
+        "https://pan.baidu.com/s/185PgdiUptps6WIQegvrHLA?pwd=4sn1"
+      ]
     ]
-      .map(([label, value]) => `<span><strong>${label}</strong> ${escapeHtml(value)}</span>`)
+      .map(([label, value, href]) => {
+        const valueHtml = href
+          ? `<a href="${href}" target="_blank" rel="noopener noreferrer">${escapeHtml(value)}</a>`
+          : escapeHtml(value);
+        return `<span><strong>${label}</strong> ${valueHtml}</span>`;
+      })
       .join("");
   }
 
@@ -1241,7 +1256,27 @@ function restoreSavedContent({ refreshMedia = false } = {}) {
   scheduleProjectCoverRefresh(content);
 }
 
+function renderCodeQr() {
+  document.querySelectorAll("[data-code-qr]").forEach((qr) => {
+    const matrix = qr.dataset.qrMatrix;
+    if (!matrix || qr.dataset.rendered === "true") return;
+    const rows = matrix.split("/");
+    qr.style.setProperty("--qr-size", String(rows[0]?.length || 37));
+    const fragment = document.createDocumentFragment();
+    rows.forEach((row) => {
+      Array.from(row).forEach((cell) => {
+        const block = document.createElement("span");
+        if (cell === "1") block.className = "is-dark";
+        fragment.appendChild(block);
+      });
+    });
+    qr.replaceChildren(fragment);
+    qr.dataset.rendered = "true";
+  });
+}
+
 bindVideoCards();
+renderCodeQr();
 restoreSavedContent();
 
 window.addEventListener("pageshow", (event) => {
