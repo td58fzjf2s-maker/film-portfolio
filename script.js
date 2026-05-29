@@ -75,7 +75,7 @@ const defaultContent = {
     name: "你的姓名",
     role: "摄像 / 后期剪辑 / 媒体内容制作",
     jobTarget: "摄像师 / 后期剪辑师 / 新媒体视觉",
-    city: "可替换城市，接受外出拍摄",
+    city: "杭州（可接受出差）",
     education: "XX大学 / 影视摄影与制作 / 本科",
     experience: "2024.05 - 至今，摄像 / 后期 / 新闻采编经验",
     tools: "DaVinci / After Effects / 剪映 / DJI / SONY",

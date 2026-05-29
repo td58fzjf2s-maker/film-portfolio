@@ -3,7 +3,7 @@ window.PORTFOLIO_STATIC_CONTENT = {
     "name": "王俊博",
     "role": "摄像 / 后期剪辑 / 媒体内容制作",
     "jobTarget": "摄像师 / 后期剪辑师 / 新媒体视觉",
-    "city": "接受外出拍摄",
+    "city": "杭州（可接受出差）",
     "education": "辽宁工程技术大学 / 广播电视学 / 2025届本科（全日制）",
     "experience": "2024.05 - 至今，摄像 / 后期 / 新闻",
     "tools": "DaVinci / After Effects / 剪映 / DJI / SONY",
